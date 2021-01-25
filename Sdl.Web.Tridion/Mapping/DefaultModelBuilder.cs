@@ -547,9 +547,10 @@ namespace Sdl.Web.Tridion.Mapping
 
         protected virtual object MapString(string stringValue, Type targetType, string pageContextId, Localization localization)
         {
-            if (targetType == typeof(RichText))
+            if (typeof(RichText).IsAssignableFrom(targetType))
             {
-                return new RichText(stringValue);
+                var richText = targetType.CreateInstance(stringValue);
+                return richText;
             }
 
             if (targetType == typeof(Link))
@@ -718,13 +719,14 @@ namespace Sdl.Web.Tridion.Mapping
                     fragments.Add(new RichTextFragment(htmlFragment));
                 }
             }
-            RichText richText = new RichText(fragments);
-            if (targetType == typeof(RichText))
+            if (typeof(RichText).IsAssignableFrom(targetType))
             {
-                return richText;
+                var customRichText = targetType.CreateInstance(fragments);
+                return customRichText;
             }
-
+            RichText richText = new RichText(fragments);
             return richText.ToString();
+            
         }
 
         protected virtual object MapEmbeddedFields(ContentModelData embeddedFields, Type targetType, SemanticSchemaField semanticSchemaField, string contextXPath, MappingData mappingData)
