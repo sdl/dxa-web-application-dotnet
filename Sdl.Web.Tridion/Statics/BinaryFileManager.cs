@@ -371,7 +371,9 @@ namespace Sdl.Web.Tridion.Statics
                 {
                     dimensions.NoStretch = true;
                 }
-                return re.Replace(path, ".");
+                
+                //Git Hub Issue #84
+                path = re.Replace(path, ".");
             }
 
             // TSI-417: unescape and only escape spaces
