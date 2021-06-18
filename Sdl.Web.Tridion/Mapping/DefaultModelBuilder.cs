@@ -620,10 +620,8 @@ namespace Sdl.Web.Tridion.Mapping
                 KeywordModel result;
                 if (keywordModelData.SchemaId == null)
                 {
-                    result = new KeywordModel
-                    {
-                        ExtensionData = keywordModelData.ExtensionData
-                    };
+                    result = (KeywordModel)targetType.CreateInstance();
+                    result.ExtensionData = keywordModelData.ExtensionData;
                 }
                 else
                 {
